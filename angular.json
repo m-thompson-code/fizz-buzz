@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "fizz-buzz-dmeo": {
+    "fizz-buzz-demo": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/fizz-buzz-dmeo",
+            "outputPath": "dist/fizz-buzz-demo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "fizz-buzz-dmeo:build:production"
+              "browserTarget": "fizz-buzz-demo:build:production"
             },
             "development": {
-              "browserTarget": "fizz-buzz-dmeo:build:development"
+              "browserTarget": "fizz-buzz-demo:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,29 +83,23 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "fizz-buzz-dmeo:build"
+            "browserTarget": "fizz-buzz-demo:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
     }
   },
-  "defaultProject": "fizz-buzz-dmeo"
+  "defaultProject": "fizz-buzz-demo",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
