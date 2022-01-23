@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./fizz.component.scss']
 })
 export class FizzComponent implements OnInit {
-            ngOnInit(): void {
-                console.log("Hello world");
-            }
+    ngOnInit(): void {
+        console.log("Hello world");
+    }
 }

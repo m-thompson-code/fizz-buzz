@@ -15,7 +15,10 @@
     }
   },
   "lint-staged": {
-    "*.{ts,scss,html}": ["eslint --ignore-path .gitignore --fix", "git add"]
+    "*.{ts,scss,html}": [
+      "eslint --ignore-path .gitignore --fix",
+      "git add"
+    ]
   },
   "private": true,
   "dependencies": {
