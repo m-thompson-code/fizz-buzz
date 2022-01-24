@@ -1,4 +1,5 @@
 <h1>Fizz Buzz</h1>
+<app-fizz *ngIf="show"></app-fizz>
 
 <p>Fizz Buzz is a classic game where players take turns "counting" from numbers with some special conditions. Players are eliminated if he or she hesitates or makes a mistake. Game concludes when there is one player left. <a href="https://en.wikipedia.org/wiki/Fizz_buzz">[source]</a></p>
 <p>Problem: Write a function that takes an ordered Array of numbers: 1 through 100 and outputs an Array where each value is based on the input Array:</p>
@@ -9,7 +10,13 @@
   <li>But, if the number is divisible by 3 and 5, map to "Fizzbuzz" instead</li>
   <li>All else, map number to number</li>
 </ol>
+<app-fizz *ngIf="show"></app-fizz>
 
 <ul>
   <li *ngFor="let value of numbers">{{ value }}</li>
 </ul>
+
+<app-fizz *ngIf="show"></app-fizz>
+<!-- <app-fizz *ngIf="show"></app-fizz> -->
+<!-- <app-fizz *ngIf="show"></app-fizz> -->
+<button (click)="show = !show">toggle show</button>
