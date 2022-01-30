@@ -1,7 +1,13 @@
 import { Asset } from "../types/types";
 
-export const BEE_ASSET: Readonly<Asset> = {
-    src: './assets/bee_32x_33x.png',
+export const BEE_LEFT_ASSET: Readonly<Asset> = {
+    src: './assets/bee_left_32x_33x.png',
+    height: 32,
+    width: 33,
+} as const;
+
+export const BEE_RIGHT_ASSET: Readonly<Asset> = {
+    src: './assets/bee_right_32x_33x.png',
     height: 32,
     width: 33,
 } as const;

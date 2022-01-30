@@ -1,6 +1,6 @@
 import { Injectable, Renderer2 } from '@angular/core';
 import { fromEvent, map, Observable, share, throttleTime } from 'rxjs';
-import { Dimensions, Position } from 'src/app/directives/animate-frame.model';
+import { Dimensions, Position } from 'src/app/directives/animate-frame/animate-frame.model';
 import { MILLISECONDS_PER_FRAME } from '../frame/frame.service';
 
 @Injectable({
