@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BUBBLE_48_ASSET } from 'src/app/constants/constants';
+import { BUBBLE_12_ASSET, BUBBLE_24_ASSET, BUBBLE_48_ASSET } from 'src/app/constants/constants';
 import {
     Dimensions,
     Position,
 } from 'src/app/directives/animate-frame/animate-frame.model';
-import { CanvasService } from '../canvas/canvas.service';
+import { Asset } from 'src/app/types/types';
+import { BLUE_COLOR, CanvasService } from '../canvas/canvas.service';
 import { ImageService } from '../image/image.service';
 import { MathService } from '../math/math.service';
 import { FizzAsset } from './fizz-canvas.model';
@@ -20,29 +21,34 @@ export class FizzCanvasService {
 
     getFizzCanvasBuilder(): (
         dimensions: Dimensions,
-        timeDelta: number
+        timeDelta: number,
+        extraBubbles: boolean
     ) => HTMLCanvasElement {
-        const bubbles: FizzAsset[] = [];
-        bubbles.push(this.getBubbleAsset(0));
-        bubbles.push(this.getBubbleAsset(0));
-        (window as any).bubbleA = bubbles[0];
-        (window as any).bubbleB = bubbles[1];
+        let bubbles: FizzAsset[] = [];
         
-        const baseVelocity = 120;
-        const velocityRange = 80;
-        const maxVelocity = 120 + 80;
+        const baseVelocity = 40;
+        const velocityRange = 10;
         const getVelocity = this.mathService.getRandVelocityValues(
             baseVelocity,
             velocityRange,
-            15,
-            5
+            5,
+            1
         );
 
         return (
             dimensions: Dimensions,
             timeDelta: number,
-            radians?: number
+            extraBubbles: boolean
         ): HTMLCanvasElement => {
+            bubbles = this.removeBubbles(bubbles, dimensions);
+            if (bubbles.length < 15 && Math.random() < .1) {
+                bubbles = this.addBubbles(bubbles, dimensions);
+            }
+
+            if (extraBubbles) {
+                bubbles = this.addExtraBubbles(bubbles, dimensions);
+            }
+
             const { width, height } = dimensions;
 
             // Create a temp canvas to store our data (because we need to clear the other box after rotation.
@@ -56,44 +62,104 @@ export class FizzCanvasService {
             canvas.width = width;
             canvas.height = height;
 
+            ctx.fillStyle = BLUE_COLOR;
+            ctx.fillRect(0,0,width,height);
+
             const velocity = getVelocity();
 
-            const offset = timeDelta * velocity;
-
-            const dy = offset;
-            const dx = 0;
-
-            // ctx.save();
-
+            
             bubbles.forEach((bubble) => {
-                // bubble.position.x += dx;
-                // bubble.position.y += dy;
+                const dx = timeDelta * bubble.xx;
+                const dy = timeDelta * (velocity + bubble.yy);
+
+                ctx.save();
+                ctx.globalAlpha = bubble.alpha;
+
+                bubble.position.x += dx + bubble.xx;
+                bubble.position.y += dy + bubble.yy;
 
                 this.canvasService.motionAnimation(
                     ctx,
                     bubble.asset,
                     bubble.position.x,
-                    height - bubble.position.y - 24
+                    height - bubble.position.y
                 );
+                ctx.restore();
             });
 
             ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
 
-            // ctx.restore();
 
             return canvas;
         };
     }
 
-    getBubbleAsset(xOffset: number): FizzAsset {
+    getShuffledArray<T>(array: T[]): T[] {
+        return array.map(value => ({ value, sort: Math.random() }))
+            .sort((a, b) => a.sort - b.sort)
+            .map(({ value }) => value);
+    }
+
+    getBubbleAsset(xOffset: number, asset: Asset): FizzAsset {
         return {
             position: {
-                x: xOffset - BUBBLE_48_ASSET.width / 2,
-                y: 0,
+                x: xOffset - asset.width / 2,
+                y: -this.mathService.getRand(40, 0),
             },
-            asset: BUBBLE_48_ASSET,
-            alpha: 0.4,
+            xx: this.mathService.getRandInRange(0,1),
+            yy: this.mathService.getRand(5, 0),
+            asset,
+            alpha: this.mathService.getRand(.4, .15),
         };
+    }
+
+    getShuffledBubbles(xOffset: number): FizzAsset[] {
+        const bubbles = [BUBBLE_48_ASSET,BUBBLE_24_ASSET,BUBBLE_12_ASSET].map(asset => this.getBubbleAsset(xOffset, asset))
+        
+        return this.getShuffledArray(bubbles);
+    }
+
+    removeBubbles(bubbles: FizzAsset[], dimensions: Dimensions): FizzAsset[] {
+        return bubbles.filter(bubble => (bubble.position.y - bubble.asset.height) < dimensions.height);
+    }
+
+    addBubbles(bubbles: FizzAsset[], dimensions: Dimensions): FizzAsset[] {
+        const { width } = dimensions;
+
+        const space = width/BUBBLE_12_ASSET.width + this.mathService.getRand(48, 4, 2);
+        const count = Math.ceil(width / space);
+
+        const xOffsets = Array(count).fill(0).map((_, i) => i * space);
+
+        const possibleBubbles: FizzAsset[] = xOffsets.map(xOffset => {
+            return this.getShuffledBubbles(xOffset)[0];
+        });
+
+        const newBubbles: FizzAsset[] = possibleBubbles.reduce((filteredBubbles: FizzAsset[], bubble: FizzAsset) => {
+            if (this.bubbleOverlapsSomeBubble(bubble, filteredBubbles)) {
+                return filteredBubbles;
+            }
+
+            if (this.bubbleOverlapsSomeBubble(bubble, bubbles)) {
+                return filteredBubbles;
+            }
+
+            return [...filteredBubbles, bubble];
+        }, []);
+
+        return [...bubbles, ...newBubbles];
+    }
+
+    addExtraBubbles(bubbles: FizzAsset[], dimensions: Dimensions): FizzAsset[] {
+        const { width } = dimensions;
+
+        const xOffsets = Array(20).fill(0).map((_, i) => this.mathService.getRand(width, 0));
+
+        const extraBubbles = xOffsets.map(xOffset => {
+            return this.getShuffledBubbles(xOffset)[0];
+        });
+
+        return [...bubbles, ...extraBubbles];
     }
 
     bubblesOverlap(bubbleA: FizzAsset, bubbleB: FizzAsset): boolean {
@@ -106,8 +172,15 @@ export class FizzCanvasService {
         const maxRadius = Math.max(radiusA, radiusB);
 
         const distance = this.mathService.distanceBetweenPoints(positionA, positionB);
-        console.log(maxRadius, distance);
 
-        return distance <= maxRadius;
+        return maxRadius >= distance / 2;
+    }
+
+    bubbleOverlapsSomeBubble(bubble: FizzAsset, bubbles: FizzAsset[]): boolean {
+        if (!bubbles.length) {
+            return false;
+        }
+
+        return bubbles.some(other => this.bubblesOverlap(other, bubble));
     }
 }

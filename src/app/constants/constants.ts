@@ -12,6 +12,12 @@ export const BEE_RIGHT_ASSET: Readonly<Asset> = {
     width: 33,
 } as const;
 
+export const BEE_EXTRA_ASSET: Readonly<Asset> = {
+    src: './assets/bee_32x_99x.png',
+    height: 32,
+    width: 99,
+} as const;
+
 export const BUBBLE_48_ASSET: Readonly<Asset> = {
     src: './assets/bubble_48x.png',
     height: 48,

@@ -1,3 +1,5 @@
+@import "../../../variables.scss";
+
 :host {
     display: flex;
     align-items: center;
@@ -5,7 +7,13 @@
     position: relative;
     height: 100%;
     width: 100%;
-    background: skyblue;
+    background: $blue;
+    overflow: hidden;
+
+    animation-name: floating;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
 }
 
 canvas {
@@ -18,4 +26,10 @@ canvas {
 
 span {
     z-index: 1;
+}
+
+@keyframes floating{
+    from {transform:translate(0, -5px);}
+    65% {transform:translate(0, 5px);}
+    to {transform: translate(0, -5px);    }    
 }

@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "npx jest",
     "lint": "ng lint --ignore-path .gitignore",
-    "deploy": "ng deploy --base-href https://m-thompson-code.github.io/fizz-buzz-demo/ --no-silent"
+    "deploy": "ng deploy --base-href https://m-thompson-code.github.io/fizz-buzz/ --no-silent"
   },
   "husky": {
     "hooks": {

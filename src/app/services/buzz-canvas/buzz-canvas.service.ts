@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BEE_LEFT_ASSET, BEE_RIGHT_ASSET } from 'src/app/constants/constants';
+import { BEE_EXTRA_ASSET, BEE_LEFT_ASSET, BEE_RIGHT_ASSET } from 'src/app/constants/constants';
 import { Dimensions, Position } from '../../directives/animate-frame/animate-frame.model';
-import { CanvasService } from '../canvas/canvas.service';
+import { CanvasService, GOLD_COLOR } from '../canvas/canvas.service';
 import { MathService } from '../math/math.service';
 
 export const DEFAULT_RADIANS = 75 - 180;
@@ -15,7 +15,7 @@ export class BuzzCanvasService {
         private readonly canvasService: CanvasService
     ) {}
 
-    getBuzzCanvasBuilder(): (dimensions: Dimensions, timeDelta: number, radians?: number) => HTMLCanvasElement {
+    getBuzzCanvasBuilder(): (dimensions: Dimensions, timeDelta: number, extraCounter: number, radians?: number) => HTMLCanvasElement {
         const bees: Position[] = [
             { x: 0, y: 0 },
             { x: BEE_LEFT_ASSET.width, y: BEE_LEFT_ASSET.height },
@@ -23,6 +23,9 @@ export class BuzzCanvasService {
             { x: BEE_LEFT_ASSET.width * 3, y: BEE_LEFT_ASSET.height * 3 },
             { x: BEE_LEFT_ASSET.width * 4, y: BEE_LEFT_ASSET.height * 4 },
         ];
+
+        let extraCounterTotal = 0;
+        let extraBee: Position | null = null;
 
         const baseVelocity = 120;
         const velocityRange = 80;
@@ -34,8 +37,22 @@ export class BuzzCanvasService {
             5
         );
 
-        return (dimensions: Dimensions, timeDelta: number, radians?: number): HTMLCanvasElement => {
+        return (dimensions: Dimensions, timeDelta: number, extraCounter: number, radians?: number): HTMLCanvasElement => {
             const { width, height } = dimensions;
+
+            if (!extraBee && extraCounterTotal > 300) {
+                extraBee = {
+                    x: width + 30,
+                    y: -BEE_EXTRA_ASSET.height / 2 + height / 2 + this.mathService.getRand(15, -15),
+                }
+
+                extraCounterTotal = 0;
+            } else {
+                extraCounterTotal += extraCounter;
+            }
+
+            extraCounterTotal = Math.max(0, extraCounterTotal - 1);
+
 
             // Create a temp canvas to store our data (because we need to clear the other box after rotation.
             const canvas = document.createElement('canvas');
@@ -48,7 +65,10 @@ export class BuzzCanvasService {
             canvas.width = width;
             canvas.height = height;
 
-            const velocity = getVelocity();
+            ctx.fillStyle = GOLD_COLOR;
+            ctx.fillRect(0,0,width,height);
+
+            const velocity = getVelocity((extraCounter ? 60 : 0));
 
             const offset = timeDelta * velocity;
 
@@ -87,6 +107,21 @@ export class BuzzCanvasService {
                     bee.y + ry
                 );
             });
+
+            if (extraBee) {
+                extraBee.x -= 1;
+
+                this.canvasService.motionAnimation(
+                    ctx,
+                    BEE_EXTRA_ASSET,
+                    extraBee.x,
+                    extraBee.y,
+                );
+
+                if (extraBee.x < -100) {
+                    extraBee = null;
+                }
+            }
 
             ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
 

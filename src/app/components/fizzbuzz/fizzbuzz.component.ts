@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil, tap } from 'rxjs';
 import {
     Dimensions,
@@ -6,6 +6,7 @@ import {
 } from 'src/app/directives/animate-frame/animate-frame.model';
 import { BuzzCanvasService } from 'src/app/services/buzz-canvas/buzz-canvas.service';
 import { CanvasService } from 'src/app/services/canvas/canvas.service';
+import { FizzCanvasService } from 'src/app/services/fizz-canvas/fizz-canvas.service';
 import { InteractionService } from 'src/app/services/interaction/interaction.service';
 import { MathService } from 'src/app/services/math/math.service';
 
@@ -15,6 +16,9 @@ import { MathService } from 'src/app/services/math/math.service';
     styleUrls: ['./fizzbuzz.component.scss'],
 })
 export class FizzbuzzComponent implements OnInit, OnDestroy {
+    private extraBubbles = false;
+    private extraCount = 0;
+
     private radians?: number;
     readonly getAnimationFrame: GetAnimationFrame;
 
@@ -22,11 +26,18 @@ export class FizzbuzzComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly canvasService: CanvasService,
+        private readonly fizzCanvasService: FizzCanvasService,
         private readonly buzzCanvasService: BuzzCanvasService,
         private readonly interfaceService: InteractionService,
         private readonly mathService: MathService,
         private readonly elementRef: ElementRef<HTMLDivElement>
     ) {
+        const delay = this.mathService.getRand(400, 0);
+        const length = this.mathService.getRand(5000, 3000);
+        this.elementRef.nativeElement.style.animationDelay = `${delay}ms`;
+        this.elementRef.nativeElement.style.animationDuration = `${length}ms`;
+        
+        const fizzCanvasBuilder = this.fizzCanvasService.getFizzCanvasBuilder();
         const buzzCanvasBuilder = this.buzzCanvasService.getBuzzCanvasBuilder();
 
         const combinedCanvasBuilder = this.canvasService.combineCanvasesBuilder();
@@ -37,22 +48,21 @@ export class FizzbuzzComponent implements OnInit, OnDestroy {
             timeDelta: number,
             canvas: HTMLCanvasElement
         ) => {
+            const fizzCanvas = fizzCanvasBuilder(
+                dimensions, timeDelta, this.extraBubbles
+            );
+            this.extraBubbles = false;
+
             const buzzCanvas = buzzCanvasBuilder(
                 dimensions,
                 timeDelta,
+                this.extraCount,
                 this.radians
             );
 
-            const { width, height } = dimensions;
+            this.extraCount = 0;
 
-            const greenCanvas = document.createElement('canvas'); // detached from DOM
-            greenCanvas.width = width;
-            greenCanvas.height = height;
-            let greenContext = greenCanvas.getContext('2d') as CanvasRenderingContext2D;
-            greenContext.fillStyle = 'green';
-            greenContext.fillRect(0,0,width,height);
-
-            const combinedCanvas = combinedCanvasBuilder(dimensions, buzzCanvas, greenCanvas);
+            const combinedCanvas = combinedCanvasBuilder(dimensions, buzzCanvas, fizzCanvas);
 
             ctx.drawImage(combinedCanvas, 0, 0, canvas.width, canvas.height);
         };
@@ -74,6 +84,17 @@ export class FizzbuzzComponent implements OnInit, OnDestroy {
                 takeUntil(this.unsubscribe$)
             )
             .subscribe();
+    }
+
+    @HostListener('click')
+    @HostListener('mouseenter')
+    shakeAnimation(): void {
+        this.extraBubbles = true;
+    }
+
+    @HostListener('click')
+    superBee(): void {
+        this.extraCount = 149;
     }
 
     ngOnDestroy(): void {

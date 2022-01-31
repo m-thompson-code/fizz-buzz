@@ -5,4 +5,6 @@ export interface FizzAsset {
     asset: Asset;
     position: Position;
     alpha: number;
+    xx: number;
+    yy: number;
 }

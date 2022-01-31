@@ -5,19 +5,19 @@ import { Position } from 'src/app/directives/animate-frame/animate-frame.model';
     providedIn: 'root',
 })
 export class MathService {
-    getRandVelocityValues(base: number, range: number, accRange: number, jerk: number = 0, exp = 0): () => number {
+    getRandVelocityValues(base: number, range: number, accRange: number, jerk: number = 0, exp = 0): (additional?: number) => number {
         const min = base - range;
         const max = base + range;
 
         let velocity = 0;
-        let acc =0;
+        let acc = 0;
 
-        return () => {
+        return (additional?: number) => {
             acc = this.getRandInRange(acc, jerk, 0, exp);
 
-            acc = this.getValueInRange(acc, -accRange, +accRange);
+            acc = this.getValueInRange(acc, -accRange, +accRange) + (additional ?? 0);
 
-            velocity = this.getValueInRange(velocity + acc, min, max);
+            velocity = this.getValueInRange(velocity + acc, min, max)
 
             return velocity;
         }
@@ -94,7 +94,7 @@ export class MathService {
     distanceBetweenPoints(a: Position, b: Position): number {
         const xx = a.x - b.x;
         const yy = a.y - b.y;
-        
+
         return Math.sqrt( Math.pow(xx, 2) + Math.pow(yy, 2) );
     }
 }

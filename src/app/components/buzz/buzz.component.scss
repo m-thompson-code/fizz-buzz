@@ -1,3 +1,5 @@
+@import "../../../variables.scss";
+
 :host {
     display: flex;
     align-items: center;
@@ -5,7 +7,8 @@
     position: relative;
     height: 100%;
     width: 100%;
-    background: orange;
+    background: $gold;
+    overflow: hidden;
 }
 
 canvas {

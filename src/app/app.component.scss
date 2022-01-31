@@ -1,3 +1,5 @@
+@import "../variables.scss";
+
 :host {
     max-width: 1200px;
     display: block;
@@ -10,15 +12,16 @@
     justify-content: center;
     gap: 30px 10px;
 
-    * {
-        height: 60px;
-        width: 200px;
-        border-radius: 4px;
-    }
     div {
         display: flex;
         align-items: center;
         justify-content: center;
         background: black;
+        background: $dark;
+    }
+    * {
+        height: 60px;
+        width: 200px;
+        border-radius: 4px;
     }
 }

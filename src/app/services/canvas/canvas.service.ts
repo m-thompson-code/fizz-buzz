@@ -4,6 +4,9 @@ import { Asset } from 'src/app/types/types';
 import { ImageService } from '../image/image.service';
 import { MathService } from '../math/math.service';
 
+export const BLUE_COLOR = "#00c9d6";
+export const GOLD_COLOR = "#f9ab00";
+
 @Injectable({
     providedIn: 'root',
 })

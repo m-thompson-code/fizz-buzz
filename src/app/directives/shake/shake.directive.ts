@@ -15,14 +15,9 @@ export class ShakeDirective implements OnDestroy {
         }, 2000 + Math.random() * 2000);
     }
 
-    @HostListener('click', ['$event'])
-    @HostListener('mouseenter', ['$event'])
-    shakeAnimation(event?: Event): void {
-        const element = this.elementRef.nativeElement;
-        if (event && event.target !== element) {
-            return;
-        }
-
+    @HostListener('click')
+    @HostListener('mouseenter')
+    shakeAnimation(): void {
         const keyframes: Keyframe[] = [];
 
         for (let i = 0; i < 50; i++) {
@@ -35,7 +30,7 @@ export class ShakeDirective implements OnDestroy {
             });
         }
 
-        element.animate(keyframes, {
+        this.elementRef.nativeElement.animate(keyframes, {
             duration: 300,
         });
     }

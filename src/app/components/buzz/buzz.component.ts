@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil, tap } from 'rxjs';
 import {
     Dimensions,
@@ -14,6 +14,7 @@ import { BuzzCanvasService } from 'src/app/services/buzz-canvas/buzz-canvas.serv
     styleUrls: ['./buzz.component.scss'],
 })
 export class BuzzComponent implements OnInit, OnDestroy {
+    private extraCount = 0;
     private radians?: number;
     readonly getAnimationFrame: GetAnimationFrame;
 
@@ -33,7 +34,8 @@ export class BuzzComponent implements OnInit, OnDestroy {
             timeDelta: number,
             canvas: HTMLCanvasElement
         ) => {
-            const buzzCanvas = buzzCanvasBuilder(dimensions, timeDelta, this.radians);
+            const buzzCanvas = buzzCanvasBuilder(dimensions, timeDelta, this.extraCount, this.radians);
+            this.extraCount = 0;
             
             ctx.drawImage(buzzCanvas, 0, 0, canvas.width, canvas.height);
         };
@@ -47,6 +49,11 @@ export class BuzzComponent implements OnInit, OnDestroy {
             }),
             takeUntil(this.unsubscribe$)
         ).subscribe();
+    }
+
+    @HostListener('click')
+    superBee(): void {
+        this.extraCount = 149;
     }
 
     ngOnDestroy(): void {
