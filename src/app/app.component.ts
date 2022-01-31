@@ -1,12 +1,13 @@
 import { Component, OnDestroy, Renderer2 } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { getCountingNumbers, getFizzbuzzValues } from 'src/fizz-buzz/fizz-buzz';
 import { InteractionService } from './services/interaction/interaction.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnDestroy {
     title = 'fizz-buzz-demo';
@@ -17,9 +18,36 @@ export class AppComponent implements OnDestroy {
 
     private readonly unsubscribe = new Subject<void>();
 
-    constructor(private renderer: Renderer2, private readonly interactionService: InteractionService) {
+    formGroup = this.fb.group({
+        start: [1, [Validators.required, Validators.pattern("^-?[0-9]*$"), Validators.min(-100), Validators.max(100)]],
+        end: [100, [Validators.required, Validators.pattern("^-?[0-9]*$"), Validators.min(-100), Validators.max(100)]],
+    });
+
+    constructor(
+        private readonly fb: FormBuilder,
+        private readonly renderer: Renderer2,
+        private readonly interactionService: InteractionService
+    ) {
         this.interactionService.setRenderer(this.renderer);
-        this.interactionService.getMousePosition().pipe(
+        this.interactionService
+            .getMousePosition()
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe();
+
+        this.formGroup.valueChanges.pipe(
+            tap(({ start, end}) => {
+                if (!Number.isInteger(start) || !Number.isInteger(end)) {
+                    return;
+                }
+                const count = end - start + 1;
+
+                try {
+                    this.numbers = getFizzbuzzValues(getCountingNumbers(count, start));
+                } catch(error) {
+                    console.error(error);
+                    this.numbers = [];
+                }
+            }),
             takeUntil(this.unsubscribe),
         ).subscribe();
     }

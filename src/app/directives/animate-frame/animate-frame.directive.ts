@@ -9,6 +9,8 @@ export class AnimateFrameDirective implements OnInit, OnDestroy {
     private shouldRender = true;
     private renderedAt = Date.now();
 
+    private timeoutRef?: number;
+
     constructor(private elementRef: ElementRef<HTMLCanvasElement>) {}
 
     ngOnInit(): void {
@@ -24,7 +26,7 @@ export class AnimateFrameDirective implements OnInit, OnDestroy {
 
     render(): void {
         if (!this.isElementInViewport()) {
-            setTimeout(() => {
+            this.timeoutRef = window.setTimeout(() => {
                 this.render();
             }, 600);
             return;
@@ -44,9 +46,6 @@ export class AnimateFrameDirective implements OnInit, OnDestroy {
 
             canvas.height = height;
             canvas.width = width;
-
-            // clear canvas
-            // ctx.clearRect(0, 0, width, height);
 
             // insert animation frame
             const now = Date.now();
@@ -77,6 +76,7 @@ export class AnimateFrameDirective implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        window.clearTimeout(this.timeoutRef);
         this.shouldRender = false;
     }
 }

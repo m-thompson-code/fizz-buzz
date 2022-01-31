@@ -8,6 +8,11 @@ import { AnimateFrameDirective } from './directives/animate-frame/animate-frame.
 import { BuzzComponent } from './components/buzz/buzz.component';
 import { ShakeDirective } from './directives/shake/shake.directive';
 import { FizzbuzzComponent } from './components/fizzbuzz/fizzbuzz.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {MatInputModule} from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
     declarations: [
@@ -20,7 +25,10 @@ import { FizzbuzzComponent } from './components/fizzbuzz/fizzbuzz.component';
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatInputModule,
+        ReactiveFormsModule
     ],
     providers: [],
     bootstrap: [AppComponent]

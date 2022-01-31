@@ -1,27 +1,16 @@
-# FizzBuzzdemo
+# FizzBuzz Demo and Solution
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2.
+[Interactive Demo](https://m-thompson-code.github.io/fizz-buzz/)
 
-## Development server
+Check out my [dev.to post](https://dev.to/mthompsoncode/solving-fizzbuzz-challenge-in-under-150-lines-of-code-341c?preview=b32cae1bc419a167d853eecfe040083d91d9f4b7b780e98a52e1809fb53bb0ec3c3a2f6d14eb35b0acab58545686465482f9b761da025c594730c2c1) to why interviewers still use FizzBuzz.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## FizzBuzz
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+FizzBuzz is a well-known, simple coding assignment that is commonly used as an entry, technical whiteboard exercise in interviews.
 
-## Build
+Exercise: Write a function that takes an ordered Array of numbers: 1 through 100 and outputs an Array where each value is based on the input Array:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+[Check out my suggested solution](https://github.com/m-thompson-code/fizz-buzz/blob/main/src/fizz-buzz/fizz-buzz.ts)
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+[Look at the tests](https://github.com/m-thompson-code/fizz-buzz/blob/main/src/fizz-buzz/fizz-buzz.spec.ts)
