@@ -112,18 +112,33 @@ export class CanvasService {
 
             radiusVelocity = this.mathService.getValueInRange(radiusVelocity, -maxRadiusChange, maxRadiusChange);
 
-            degrees += radiusVelocity
+            degrees += radiusVelocity;
 
-
-            const startingAngle = this.mathService.getRadians(degrees);
-            const endingAngle = startingAngle - Math.PI;
+            const radians = degrees * Math.PI / 180;
 
             ctx.save();
             ctx.beginPath();
 
-            ctx.arc(width / 2, height / 2, radius, startingAngle,
-                endingAngle, true);
+            const centerX = width / 2;
+            const centerY = height / 2;
 
+            const x1 = centerX + radius * Math.cos(radians);
+            const y1 = centerY + radius * Math.sin(radians);
+
+            const x2 = centerX + radius * Math.cos(radians - Math.PI);
+            const y2 = centerY + radius * Math.sin(radians - Math.PI);
+
+            const x3 = x1 + 2 * radius * Math.cos(radians - Math.PI / 2);
+            const y3 = y1 + 2 * radius * Math.sin(radians - Math.PI / 2);
+
+            const x4 = x2 + 2 * radius * Math.cos(radians - Math.PI / 2);
+            const y4 = y2 + 2 * radius * Math.sin(radians - Math.PI / 2);
+
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.lineTo(x4, y4);
+            ctx.lineTo(x3, y3);
+            
             ctx.closePath();
             ctx.clip();
 

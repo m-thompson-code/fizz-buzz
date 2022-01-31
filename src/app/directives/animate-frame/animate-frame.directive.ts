@@ -23,6 +23,13 @@ export class AnimateFrameDirective implements OnInit, OnDestroy {
     }
 
     render(): void {
+        if (!this.isElementInViewport()) {
+            setTimeout(() => {
+                this.render();
+            }, 600);
+            return;
+        }
+
         const dimensions = this.getDimensions();
         const { height, width } = dimensions;
 
@@ -39,7 +46,7 @@ export class AnimateFrameDirective implements OnInit, OnDestroy {
             canvas.width = width;
 
             // clear canvas
-            ctx.clearRect(0, 0, width, height);
+            // ctx.clearRect(0, 0, width, height);
 
             // insert animation frame
             const now = Date.now();
@@ -54,6 +61,19 @@ export class AnimateFrameDirective implements OnInit, OnDestroy {
         };
 
         window.requestAnimationFrame(getAnimationFrame);
+    }
+
+    isElementInViewport (): boolean {
+        const rect = this.elementRef.nativeElement.getBoundingClientRect();
+
+        const { height, width } = this.getDimensions()
+    
+        return (
+            rect.top + height >= 0 &&
+            rect.left + width >= 0 &&
+            rect.bottom - height <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right - width <= (window.innerWidth || document.documentElement.clientWidth)
+        );
     }
 
     ngOnDestroy(): void {

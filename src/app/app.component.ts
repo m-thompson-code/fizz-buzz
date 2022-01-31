@@ -13,7 +13,7 @@ export class AppComponent implements OnDestroy {
 
     show = true;
 
-    numbers = getFizzbuzzValues(getCountingNumbers(20, 1));
+    numbers = getFizzbuzzValues(getCountingNumbers(100, 1));
 
     private readonly unsubscribe = new Subject<void>();
 

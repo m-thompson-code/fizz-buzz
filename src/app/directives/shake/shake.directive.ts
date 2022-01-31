@@ -1,4 +1,5 @@
 import { Directive, ElementRef, HostListener, OnDestroy } from '@angular/core';
+import { MathService } from 'src/app/services/math/math.service';
 
 @Directive({
     selector: '[appShake]',
@@ -6,13 +7,13 @@ import { Directive, ElementRef, HostListener, OnDestroy } from '@angular/core';
 export class ShakeDirective implements OnDestroy {
     private timeoutRef = this.getShakeTimeout();
 
-    constructor(private readonly elementRef: ElementRef) {}
+    constructor(private readonly elementRef: ElementRef, private readonly mathService: MathService) {}
 
     getShakeTimeout(): number {
         return window.setTimeout(() => {
             this.shakeAnimation();
             this.timeoutRef = this.getShakeTimeout();
-        }, 2000 + Math.random() * 2000);
+        }, 2000 + this.mathService.getRandomSeed() * 2000);
     }
 
     @HostListener('click')
@@ -22,9 +23,9 @@ export class ShakeDirective implements OnDestroy {
 
         for (let i = 0; i < 50; i++) {
             const c = 4;
-            const x = c - Math.random() * c * 2;
-            const y = c - Math.random() * c * 2;
-            const r = c - Math.random() * c * 2;
+            const x = c - this.mathService.getRandomSeed() * c * 2;
+            const y = c - this.mathService.getRandomSeed() * c * 2;
+            const r = c - this.mathService.getRandomSeed() * c * 2;
             keyframes.push({
                 transform: `translate(${x}px, ${y}px) rotate(${r}deg)`,
             });

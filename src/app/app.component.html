@@ -12,6 +12,10 @@
 
 <div class="list">
   <ng-container *ngFor="let value of numbers">
+    <!-- <div appShake *ngIf="value === 'Fizzbuzz'">{{ value }}</div>
+    <div appShake *ngIf="value === 'Buzz'">{{ value }}</div>
+    <div *ngIf="value === 'Fizz'">{{ value }}</div> -->
+
     <app-fizzbuzz appShake *ngIf="value === 'Fizzbuzz'">{{ value }}</app-fizzbuzz>
     <app-buzz appShake *ngIf="value === 'Buzz'"></app-buzz>
     <app-fizz *ngIf="value === 'Fizz'"></app-fizz>

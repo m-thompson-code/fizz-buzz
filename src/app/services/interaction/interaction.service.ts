@@ -1,7 +1,6 @@
 import { Injectable, Renderer2 } from '@angular/core';
 import { fromEvent, map, Observable, share, throttleTime } from 'rxjs';
-import { Dimensions, Position } from 'src/app/directives/animate-frame/animate-frame.model';
-import { MILLISECONDS_PER_FRAME } from '../frame/frame.service';
+import { Position } from 'src/app/directives/animate-frame/animate-frame.model';
 
 @Injectable({
     providedIn: 'root',
@@ -28,7 +27,7 @@ export class InteractionService {
                     y: mouseEvent.clientY,
                 };
             }),
-            throttleTime(MILLISECONDS_PER_FRAME),
+            throttleTime(200),
             share()
         );
     }

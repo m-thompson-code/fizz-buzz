@@ -41,7 +41,7 @@ export class FizzCanvasService {
             extraBubbles: boolean
         ): HTMLCanvasElement => {
             bubbles = this.removeBubbles(bubbles, dimensions);
-            if (bubbles.length < 15 && Math.random() < .1) {
+            if (bubbles.length < 15 && this.mathService.getRandomSeed() < .05) {
                 bubbles = this.addBubbles(bubbles, dimensions);
             }
 
@@ -95,7 +95,7 @@ export class FizzCanvasService {
     }
 
     getShuffledArray<T>(array: T[]): T[] {
-        return array.map(value => ({ value, sort: Math.random() }))
+        return array.map(value => ({ value, sort: this.mathService.getRandomSeed() }))
             .sort((a, b) => a.sort - b.sort)
             .map(({ value }) => value);
     }

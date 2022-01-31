@@ -5,6 +5,13 @@ import { Position } from 'src/app/directives/animate-frame/animate-frame.model';
     providedIn: 'root',
 })
 export class MathService {
+    randomSeedTable: number[] = [];
+    randomSeedIndex = 0;
+
+    constructor() {
+        this.generateRandomSeedTable();
+    }
+
     getRandVelocityValues(base: number, range: number, accRange: number, jerk: number = 0, exp = 0): (additional?: number) => number {
         const min = base - range;
         const max = base + range;
@@ -45,9 +52,30 @@ export class MathService {
         return value;
     }
 
+    generateRandomSeedTable(): void {
+        this.randomSeedTable = Array(1000).fill(0).map((_, i) => Math.random());
+        // for (var i=1e6, lookupTable=[]; i--;) {
+        //     lookupTable.push(Math.random());
+        //   }
+        //   function lookup() {
+        //     return ++i >= lookupTable.length ? lookupTable[i=0] : lookupTable[i];
+        //   }
+    }
+
+    getRandomSeed(): number {
+        // return Math.random();
+        this.randomSeedIndex = this.randomSeedIndex + 1;
+
+        if (this.randomSeedIndex > this.randomSeedTable.length - 1) {
+            this.randomSeedIndex = 0;
+        }
+
+        return this.randomSeedTable[this.randomSeedIndex];
+    }
+
     getRand(max: number, min = 0, exp = 0): number {
         const range = max - min;
-        const rand = range * Math.random();
+        const rand = range * this.getRandomSeed();
         
         if (!exp) {
             return rand + min;
@@ -61,7 +89,7 @@ export class MathService {
     }
 
     getBasicRand(max: number, min = 0): number {
-        return max * Math.random() - min;
+        return max * this.getRandomSeed() - min;
     }
 
     getCoordinates(distance: number, angle: number): Position {

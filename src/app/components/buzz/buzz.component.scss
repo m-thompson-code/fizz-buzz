@@ -13,12 +13,13 @@
 
 canvas {
     pointer-events: none;
+}
+
+div {
+    z-index: 1;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
-
-span {
-    z-index: 1;
+    white-space: nowrap;
 }

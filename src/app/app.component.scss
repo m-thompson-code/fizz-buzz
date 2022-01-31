@@ -1,8 +1,9 @@
 @import "../variables.scss";
 
 :host {
-    max-width: 1200px;
+    max-width: 830px;
     display: block;
+    padding-top: 10vh;
 }
 
 .list {
@@ -11,6 +12,7 @@
     align-items: center;
     justify-content: center;
     gap: 30px 10px;
+    padding-bottom: 30vh;
 
     div {
         display: flex;
@@ -18,6 +20,7 @@
         justify-content: center;
         background: black;
         background: $dark;
+        white-space: nowrap;
     }
     * {
         height: 60px;
