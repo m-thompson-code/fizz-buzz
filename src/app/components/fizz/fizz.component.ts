@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
-import { Dimensions, GetAnimationFrame } from 'src/app/directives/animate-frame/animate-frame.model';
-import { FizzCanvasService } from 'src/app/services/fizz-canvas/fizz-canvas.service';
-import { MathService } from 'src/app/services/math/math.service';
+import { Dimensions, GetAnimationFrame } from '../../directives/animate-frame/animate-frame.model';
+import { FizzCanvasService } from '../../services/fizz-canvas/fizz-canvas.service';
+import { MathService } from '../../services/math/math.service';
 
 @Component({
     selector: 'app-fizz',

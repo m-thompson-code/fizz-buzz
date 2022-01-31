@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Dimensions } from 'src/app/directives/animate-frame/animate-frame.model';
-import { Asset } from 'src/app/types/types';
+import { Dimensions } from '../../directives/animate-frame/animate-frame.model';
+import { Asset } from '../../types/types';
 import { ImageService } from '../image/image.service';
 import { MathService } from '../math/math.service';
 

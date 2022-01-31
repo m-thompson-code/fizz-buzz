@@ -3,12 +3,12 @@ import { Subject, takeUntil, tap } from 'rxjs';
 import {
     Dimensions,
     GetAnimationFrame,
-} from 'src/app/directives/animate-frame/animate-frame.model';
-import { BuzzCanvasService } from 'src/app/services/buzz-canvas/buzz-canvas.service';
-import { CanvasService } from 'src/app/services/canvas/canvas.service';
-import { FizzCanvasService } from 'src/app/services/fizz-canvas/fizz-canvas.service';
-import { InteractionService } from 'src/app/services/interaction/interaction.service';
-import { MathService } from 'src/app/services/math/math.service';
+} from '../../directives/animate-frame/animate-frame.model';
+import { BuzzCanvasService } from '../../services/buzz-canvas/buzz-canvas.service';
+import { CanvasService } from '../../services/canvas/canvas.service';
+import { FizzCanvasService } from '../../services/fizz-canvas/fizz-canvas.service';
+import { InteractionService } from '../../services/interaction/interaction.service';
+import { MathService } from '../../services/math/math.service';
 
 @Component({
     selector: 'app-fizzbuzz',

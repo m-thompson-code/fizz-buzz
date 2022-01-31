@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AnimateFrameDirective } from '../../directives/animate-frame/animate-frame.directive';
 
 import { FizzbuzzComponent } from './fizzbuzz.component';
 
@@ -8,7 +9,7 @@ describe('FizzbuzzComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ FizzbuzzComponent ]
+            declarations: [ FizzbuzzComponent, AnimateFrameDirective ],
         })
             .compileComponents();
     });

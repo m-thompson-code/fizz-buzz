@@ -1,7 +1,7 @@
-import { Component, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Subject, takeUntil, tap } from 'rxjs';
-import { getCountingNumbers, getFizzbuzzValues } from 'src/fizz-buzz/fizz-buzz';
+import { getCountingNumbers, getFizzbuzzValues } from '../fizz-buzz/fizz-buzz';
 import { InteractionService } from './services/interaction/interaction.service';
 
 @Component({
@@ -25,10 +25,8 @@ export class AppComponent implements OnDestroy {
 
     constructor(
         private readonly fb: FormBuilder,
-        private readonly renderer: Renderer2,
         private readonly interactionService: InteractionService
     ) {
-        this.interactionService.setRenderer(this.renderer);
         this.interactionService
             .getMousePosition()
             .pipe(takeUntil(this.unsubscribe))

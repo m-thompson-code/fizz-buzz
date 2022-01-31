@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BEE_EXTRA_ASSET, BEE_LEFT_ASSET, BEE_RIGHT_ASSET } from 'src/app/constants/constants';
+import { BEE_EXTRA_ASSET, BEE_LEFT_ASSET, BEE_RIGHT_ASSET } from '../../constants/constants';
 import { Dimensions, Position } from '../../directives/animate-frame/animate-frame.model';
 import { CanvasService, GOLD_COLOR } from '../canvas/canvas.service';
 import { MathService } from '../math/math.service';

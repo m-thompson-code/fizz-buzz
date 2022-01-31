@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Position } from 'src/app/directives/animate-frame/animate-frame.model';
+import { Position } from '../../directives/animate-frame/animate-frame.model';
 
 @Injectable({
     providedIn: 'root',

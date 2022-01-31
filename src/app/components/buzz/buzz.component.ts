@@ -4,9 +4,9 @@ import {
     Dimensions,
     GetAnimationFrame
 } from '../../directives/animate-frame/animate-frame.model';
-import { InteractionService } from 'src/app/services/interaction/interaction.service';
-import { MathService } from 'src/app/services/math/math.service';
-import { BuzzCanvasService } from 'src/app/services/buzz-canvas/buzz-canvas.service';
+import { InteractionService } from '../../services/interaction/interaction.service';
+import { MathService } from '../../services/math/math.service';
+import { BuzzCanvasService } from '../../services/buzz-canvas/buzz-canvas.service';
 
 @Component({
     selector: 'app-buzz',

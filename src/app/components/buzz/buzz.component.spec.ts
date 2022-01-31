@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AnimateFrameDirective } from '../../directives/animate-frame/animate-frame.directive';
 
 import { BuzzComponent } from './buzz.component';
 
@@ -8,7 +9,7 @@ describe('BuzzComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ BuzzComponent ]
+            declarations: [ BuzzComponent, AnimateFrameDirective ]
         })
             .compileComponents();
     });

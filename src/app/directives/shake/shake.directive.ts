@@ -1,5 +1,5 @@
 import { Directive, ElementRef, HostListener, OnDestroy } from '@angular/core';
-import { MathService } from 'src/app/services/math/math.service';
+import { MathService } from '../../services/math/math.service';
 
 @Directive({
     selector: '[appShake]',

@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BUBBLE_12_ASSET, BUBBLE_24_ASSET, BUBBLE_48_ASSET } from 'src/app/constants/constants';
+import { BUBBLE_12_ASSET, BUBBLE_24_ASSET, BUBBLE_48_ASSET } from '../../constants/constants';
 import {
-    Dimensions,
-    Position,
-} from 'src/app/directives/animate-frame/animate-frame.model';
-import { Asset } from 'src/app/types/types';
+    Dimensions
+} from '../../directives/animate-frame/animate-frame.model';
+import { Asset } from '../../types/types';
 import { BLUE_COLOR, CanvasService } from '../canvas/canvas.service';
-import { ImageService } from '../image/image.service';
 import { MathService } from '../math/math.service';
 import { FizzAsset } from './fizz-canvas.model';
 
