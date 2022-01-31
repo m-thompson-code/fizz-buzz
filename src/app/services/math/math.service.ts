@@ -90,4 +90,11 @@ export class MathService {
 
         return Math.atan2(dy, dx);
     }
+    
+    distanceBetweenPoints(a: Position, b: Position): number {
+        const xx = a.x - b.x;
+        const yy = a.y - b.y;
+        
+        return Math.sqrt( Math.pow(xx, 2) + Math.pow(yy, 2) );
+    }
 }

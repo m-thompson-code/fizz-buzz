@@ -1,9 +1,14 @@
+:host {
+    max-width: 1200px;
+    display: block;
+}
+
 .list {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 30px 10px;
 
     * {
         height: 60px;

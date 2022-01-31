@@ -69,14 +69,14 @@ export class BuzzCanvasService {
 
                 const rx = this.mathService.getRandInRange(
                     0,
-                    vibration * 60,
-                    vibration * 15,
+                    vibration * 3,
+                    vibration * 3,
                     10
                 );
                 const ry = this.mathService.getRandInRange(
                     0,
-                    vibration * 60,
-                    vibration * 15,
+                    vibration * 3,
+                    vibration * 3,
                     10
                 );
                 this.canvasService.wrappingMotionAnimation(

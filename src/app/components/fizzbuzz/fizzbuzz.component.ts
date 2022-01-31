@@ -52,7 +52,7 @@ export class FizzbuzzComponent implements OnInit, OnDestroy {
             greenContext.fillStyle = 'green';
             greenContext.fillRect(0,0,width,height);
 
-            const combinedCanvas = combinedCanvasBuilder(dimensions, timeDelta, buzzCanvas, greenCanvas);
+            const combinedCanvas = combinedCanvasBuilder(dimensions, buzzCanvas, greenCanvas);
 
             ctx.drawImage(combinedCanvas, 0, 0, canvas.width, canvas.height);
         };

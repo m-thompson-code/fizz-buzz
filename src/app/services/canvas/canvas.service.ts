@@ -10,6 +10,20 @@ import { MathService } from '../math/math.service';
 export class CanvasService {
     constructor(private readonly imageService: ImageService, private readonly mathService: MathService) {}
 
+    motionAnimation(
+        ctx: CanvasRenderingContext2D,
+        asset: Asset,
+        x: number,
+        y: number
+    ): void {
+        const assetImage = this.imageService.getImage(asset.src);
+
+        const xx = x;
+        const yy = y;
+
+        ctx.drawImage(assetImage, xx, yy);
+    }
+
     wrappingMotionAnimation(
         ctx: CanvasRenderingContext2D,
         asset: Asset,
@@ -37,6 +51,7 @@ export class CanvasService {
             const xx = dx + widthOffset;
             const yy = dy + heightOffset;
 
+            // Optimization, skip rendering for assets clearly outside of canvas
             if (
                 xx < -imageWidth ||
                 xx > width + imageWidth ||
@@ -52,33 +67,14 @@ export class CanvasService {
 
     combineCanvasesBuilder(): (
         dimensions: Dimensions,
-        timeDelta: number,
         canvasA: HTMLCanvasElement,
         canvasB: HTMLCanvasElement
     ) => HTMLCanvasElement {
-        const getWidthOffset = this.mathService.getRandVelocityValues(
-            0,
-            1,
-            .03,
-            .01,
-            2
-        );
-
-        const getDegrees = 180;
-        
-        // this.mathService.getRandInRange(
-        //     0,
-        //     4,
-        //     1,
-        //     2
-        // );
-
         let degrees = -90;
         let radiusVelocity = 0;
 
         return (
             dimensions: Dimensions,
-            timeDelta: number,
             canvasA: HTMLCanvasElement,
             canvasB: HTMLCanvasElement
         ) => {
@@ -97,57 +93,33 @@ export class CanvasService {
 
             ctx.drawImage(canvasA, 0, 0, width, height);
 
-            // const offsetWidth = getWidthOffset() * width / 2;
-            // const offsetRadians = getDegrees();
+            const radius = Math.max(width, height);
 
-            var centerX = width / 2;
-            var centerY = height / 2;
-
-            var radius = width;
-
-
+            const tilt = this.mathService.getCoordinates(1, this.mathService.getRadians(degrees));
+            const tiltX = Math.abs(tilt.x);
+            const tiltY = Math.abs(tilt.y);
             radiusVelocity += this.mathService.getRandInRange(
                 0,
-                2,
-                2,
-                5
+                0.1 + .35 * tiltX,
+                .1 + .3 * tiltY,
+                1
             );
 
-            radiusVelocity = this.mathService.getValueInRange(radiusVelocity, -3, 3);
+            const maxRadiusChange = 1 + tiltY * 3;
+
+            radiusVelocity = this.mathService.getValueInRange(radiusVelocity, -maxRadiusChange, maxRadiusChange);
 
             degrees += radiusVelocity
 
 
-            var startingAngle = this.mathService.getRadians(degrees);//Math.PI;
-            var endingAngle = startingAngle - Math.PI;
+            const startingAngle = this.mathService.getRadians(degrees);
+            const endingAngle = startingAngle - Math.PI;
 
             ctx.save();
             ctx.beginPath();
 
-            ctx.moveTo(centerX, centerY);
-
-            ctx.arc(centerX, centerY, radius, startingAngle,
+            ctx.arc(width / 2, height / 2, radius, startingAngle,
                 endingAngle, true);
-
-            // ctx.moveTo(0, 0);
-            // ctx.lineTo(width / 2 - offsetWidth, 0);
-            // ctx.lineTo(width / 2 + offsetWidth, height);
-            // ctx.lineTo(0, height);
-
-            // ctx.moveTo(0, 0);
-            // ctx.lineTo(width / 2 + offsetWidth, height / 2 + offsetHeight);
-            // ctx.moveTo(width / 2 + offsetWidth, height / 2 - offsetHeight);
-            // ctx.lineTo(width / 2 - offsetWidth, height / 2 + offsetHeight);
-            // ctx.lineTo(width / 2 - offsetWidth, height / 2 - offsetHeight);
-            // ctx.lineTo(0, height);
-
-
-            // ctx.moveTo(0, 0);
-            // ctx.moveTo(0, height / 2 - offsetHeight);
-            // ctx.lineTo(width / 2 + offsetWidth, height / 2 - offsetHeight);
-            // ctx.lineTo(width / 2 - offsetWidth, height / 2 + offsetHeight);
-            // ctx.lineTo(0, height / 2 + offsetHeight);
-            // ctx.lineTo(0, height);
 
             ctx.closePath();
             ctx.clip();
