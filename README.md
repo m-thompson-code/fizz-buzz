@@ -2,7 +2,7 @@
 
 [Interactive Demo](https://m-thompson-code.github.io/fizz-buzz/)
 
-Check out my [dev.to post](https://dev.to/mthompsoncode/solving-fizzbuzz-challenge-in-under-150-lines-of-code-341c?preview=b32cae1bc419a167d853eecfe040083d91d9f4b7b780e98a52e1809fb53bb0ec3c3a2f6d14eb35b0acab58545686465482f9b761da025c594730c2c1) to why interviewers still use FizzBuzz.
+Check out my [dev.to post](https://dev.to/mthompsoncode/solving-fizzbuzz-challenge-in-under-150-lines-of-code-341c) to why interviewers still use FizzBuzz.
 
 
 ## FizzBuzz
