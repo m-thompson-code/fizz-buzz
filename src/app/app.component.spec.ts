@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Pipe, PipeTransform } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,14 +19,12 @@ class MockLabelComponent {}
 describe('AppComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule,
-                ReactiveFormsModule
-            ],
+            imports: [RouterTestingModule, ReactiveFormsModule],
             declarations: [
                 AppComponent,
                 MockFormFieldComponent,
-                MockLabelComponent
+                MockLabelComponent,
+                Test,
             ],
         }).compileComponents();
     });
